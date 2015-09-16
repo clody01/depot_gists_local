@@ -1,0 +1,146 @@
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+  $(function () {
+      $('#login').html('');
+      $('#password').html('');
+
+      var liste_of_files = [];
+      $('#submitid').click(function () {
+          var filename = document.getElementById("filename");
+          var content = document.getElementById("content");
+          var description = document.getElementById("description");
+          var file_liste = document.getElementById("file_liste");
+
+          if (content.value !== "" && description.value !== "") {
+              var file = {
+                  filename: filename.value,
+                  content: content.value};
+              liste_of_files.push(JSON.stringify(file));
+          }
+          file_liste.value = liste_of_files.toString();
+          filename.value = "";
+          content.value = "";
+
+
+      });
+
+  });
+
+</script>
+<p id="notice"><%= notice %></p>
+<%= form_tag gists_create_local_and_github_gists_path , :remote => true, multipart:true do %>
+  <div id="login_div_id">
+      <div>
+          <label class="control-label" > Login </label>
+
+          <div class="controls">                   
+              <%= text_field_tag :login   %>
+          </div>
+      </div>
+      <div>
+          <label class="control-label" > Password </label>
+          <div class="controls">                   
+              <%= text_field_tag :password   %>
+          </div>
+      </div>
+      <br/>
+  </div>
+
+  <div  id="login_alert_id"class="alert alert-warning" role="alert">         
+      <strong>Attention!</strong> Si vous n'etes pas loger vos gists seront publics    
+  </div>
+
+
+  <div id="new_gist_div_id">
+
+      <label class="control-label" > Description </label>
+      <div class="controls">                   
+          <%= text_field_tag :description %>
+      </div>
+      <div >
+
+
+          <label class="control-label" > Filename </label>
+          <div class="controls">                   
+              <%= text_field_tag :filename %>
+          </div>
+
+
+
+
+          <label class="control-label" > Choisissez la categorie </label>
+          <div class="controls">  
+
+  <%#= check_box_tag :public %>
+              <%= select_tag 'public', options_for_select([["Privé", false],["Public", true]]) ,class: 'btn btn-mini btn-primary'%>         
+            </div>
+            <div  id="private_alert_id"class="alert alert-warning" role="alert">         
+                <strong>Attention!</strong> Pour creer un gist privé il faut imperaviment se loger    
+            </div>
+
+        </div>
+
+        <div>    
+
+            <div class="controls">                   
+                <%= text_area_tag :content , nil, rows: 5, cols: 117 %>
+            </div>
+        </div>
+        <div>
+            <div class="pull-left">
+
+                <%= hidden_field_tag :file_liste %>
+                <div class="controls">  
+                    <%= submit_tag "submit" ,class: 'btn btn-mini btn-success' ,id: "submitid" %>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+    <% end %> 
+    <br/>
+
+    <h1>Listing Gists</h1>
+
+    <table class="table table-hover table-condensed table-bordered " id="datatable_id">
+        <thead>
+            <tr>
+                <th>Identifient</th>
+                <th>Description</th>
+                <th>Public</th>
+                <th>Saved</th>
+                <th>User</th>
+                <th>Show</th>
+                <th>Edit</th>
+                <th>Destroy</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            <% if @new_list != nil %>
+              <% gists_liste = @new_list  %>
+            <% else %>
+              <% gists_liste = Gist.all  %>
+            <% end %>
+
+            <% gists_liste.each do |gist| %>
+              <tr>
+                  <td><%= gist.hubid %></td>
+                  <td><%= gist.description %></td>
+                  <td><%= gist.public %></td>
+                  <td><%= gist.saved %></td>
+                  <td><%= gist.userlogin %></td>
+                  <td><%= link_to 'Show', gist %></td>
+                  <td><%= link_to 'Edit', edit_gist_path(gist) %></td>
+                  <td><%= link_to 'Destroy', gist, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              </tr>
+            <% end %>
+        </tbody>
+    </table>
+
+    <br>
+
+    <%= link_to 'New Gist', new_gist_path %>

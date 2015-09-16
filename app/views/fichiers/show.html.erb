@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Filename:</strong>
+  <%= @fichier.filename %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @fichier.content %>
+</p>
+
+<p>
+  <strong>Language:</strong>
+  <%= @fichier.language %>
+</p>
+
+<%= link_to 'Edit', edit_fichier_path(@fichier) %> |
+<%= link_to 'Back', fichiers_path %>

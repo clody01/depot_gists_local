@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  hubid: MyString
+  description: MyString
+  public: false
+  userlogin: MyString
+  saved: false
+
+two:
+  hubid: MyString
+  description: MyString
+  public: false
+  userlogin: MyString
+  saved: false

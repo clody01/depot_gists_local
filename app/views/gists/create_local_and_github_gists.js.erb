@@ -1,0 +1,14 @@
+   var filename = document.getElementById("filename");
+          var content = document.getElementById("content");
+          var description = document.getElementById("description");
+          var file_liste = document.getElementById("file_liste");
+          var new_file = document.getElementById("new_file");
+<% @new_list = nil  %>
+<% if @reponse == 201 %>
+         description.value = "";
+         filename.value = "";
+          content.value = "";
+        <% @new_list = Gist.all  %>
+<% elsif @reponse == 401 %>
+  
+<% end%>
