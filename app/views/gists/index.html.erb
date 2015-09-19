@@ -1,23 +1,10 @@
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script type="text/javascript" charset="utf8" src="/js/jquery.dataTables.js"></script>
+<script  language="javascript" type="text/javascript" src="../javascripts/jquery-2.1.4.min.js"></script>
+
 <script type="text/javascript">
-  $(document).ready(function(){
 
-    $('#datatable_id').dataTable({
-       
-        
-        autoWidth: false,
-          pagingType: 'full_numbers',
-          processing: true,
-          serverSide: true
-    });
 
-   
-});
-  
-  
-  $(function () {
+$(function () {
       $('#login').html('');
       $('#password').html('');
 
@@ -28,7 +15,7 @@
           var description = document.getElementById("description");
           var file_liste = document.getElementById("file_liste");
 
-          if (content.value !== "" && description.value !== "") {
+          if (content.value != "" && description.value != "") {
               var file = {
                   filename: filename.value,
                   content: content.value};
@@ -41,13 +28,40 @@
 
       });
 
-      $('#datatable_id').DataTable({
-          autoWidth: false,
-          pagingType: 'full_numbers'
-          
-      });
+
 
   });
+  
+  
+<%#*jQuery(document).ready(function($) {%> 
+
+<%#*$('#datatable').dataTable({%>
+          <%#*autoWidth: false,%>
+          <%#*pagingType: 'full_numbers',%>
+          <%#*processing: true%>
+      <%#*});%>
+
+
+<%#*});%>
+  var example =jQuery.noConflict();
+   example(function(){$('#datatable').dataTable({
+          sautoWidth: false,
+            sPaginationType: "full_numbers",
+    bJQueryUI: true,
+    
+    bServerSide: false
+      });
+}); 
+  
+  <%#*$(document).ready(function () {%>
+
+      <%#*$('#datatable').dataTable({%>
+          <%#*autoWidth: false,%>
+          <%#*pagingType: 'full_numbers',%>
+          <%#*processing: true%>
+      <%#*});%>
+  <%#*});%>
+
 
 </script>
 <p id="notice"><%= notice %></p>
@@ -69,7 +83,7 @@
       <br/>
   </div>
 
-  <div  id="login_alert_id"class="alert alert-warning" role="alert">         
+  <div  id="login_alert_id" class="alert alert-warning" role="alert">         
       <strong>Attention!</strong> Si vous n'etes pas loger vos gists seront publics    
   </div>
 
@@ -97,7 +111,7 @@
   <%#= check_box_tag :public %>
               <%= select_tag 'public', options_for_select([["Privé", false],["Public", true]]) ,class: 'btn btn-mini btn-primary'%>         
             </div>
-            <div  id="private_alert_id"class="alert alert-warning" role="alert">         
+            <div id="private_alert_id" class="alert alert-warning" role="alert">         
                 <strong>Attention!</strong> Pour creer un gist privé il faut imperaviment se loger    
             </div>
 
@@ -125,7 +139,7 @@
 
     <h1>Listing Gists</h1>
 
-    <table class="table table-hover table-condensed table-bordered " id="datatable_id">
+    <table class="table table-hover table-condensed table-bordered datatable " id="datatable">
         <thead>
             <tr>
                 <th>Identifient</th>
@@ -147,7 +161,7 @@
               <% gists_liste = Gist.all  %>
             <% end %>
 
-            <% gists_liste.each do |gist| %>
+            <% @gists.each do |gist| %>
               <tr>
                   <td><%= gist.hubid %></td>
                   <td><%= gist.description %></td>
@@ -164,4 +178,6 @@
 
     <br>
 
+    
+    
     <%= link_to 'New Gist', new_gist_path %>
